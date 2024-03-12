@@ -10,3 +10,5 @@ threadpoolctl
 KMeans
 pip
 scikit-learn
+openpyxl
+plotly
