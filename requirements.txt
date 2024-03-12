@@ -1,0 +1,12 @@
+streamlit
+seaborn
+numpy
+pandas
+plotly.express
+scipy
+plotly.graph_objs
+matplotlib.pyplot
+sklearn
+threadpoolctl
+KMeans
+graph_objects
