@@ -5,7 +5,6 @@ pandas
 plotly.express
 scipy
 matplotlib
-matplotlib.pyplot
 sklearn
 threadpoolctl
 KMeans
