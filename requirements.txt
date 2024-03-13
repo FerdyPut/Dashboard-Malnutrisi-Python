@@ -11,3 +11,4 @@ pip
 scikit-learn
 openpyxl
 plotly
+option_menu
