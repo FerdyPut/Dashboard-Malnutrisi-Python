@@ -14,3 +14,4 @@ plotly
 streamlit_option_menu
 numerize
 streamlit_extras
+StandardScaler
