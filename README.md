@@ -5,3 +5,6 @@ Dashboard interaktif malnutrisi Indonesia yang memiliki beberapa variabel terkai
 
 Dashboard View:
 ![image](https://github.com/FerdyPut/Dashboard-Malnutrisi-Python/assets/96618837/4fca5c99-9055-4bcc-b246-a4a5735a62f8)
+
+##Link Bisa diakses:
+https://dashboard-malnutrisi-indonesia2022.streamlit.app/
