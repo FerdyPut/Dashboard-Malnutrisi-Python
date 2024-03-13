@@ -11,7 +11,7 @@ https://dashboard-malnutrisi-indonesia2022.streamlit.app/
 
 
 ### Informasi lebih lanjut mengenai dashboard -->
-Instagram:
+#### Instagram:
 @fer.dyputr_
-Linkedln:
+#### Linkedln:
 https://www.linkedin.com/in/ferdypput/
