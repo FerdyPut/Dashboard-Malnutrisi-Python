@@ -3,6 +3,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd 
 import os
+from sklearn.preprocessing import StandardScaler
 import warnings
 from streamlit_option_menu import option_menu
 from numerize.numerize import numerize
@@ -23,9 +24,9 @@ import plotly.graph_objects as go
 import openpyxl
 
 
-st.set_page_config(page_title="Dashboard Interactive", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(page_title="Dashboard Interaktif - Malnutrisi Indonesia", page_icon=":bar_chart:", layout="wide")
 #---------------------Memberikan title
-st.title(" :chart_with_upwards_trend: Dashboard Interaktif")
+st.title(" :chart_with_upwards_trend: Dashboard Interaktif - Malnutrisi Indonesia ")
 
 st.markdown('<style>div.block-container{padding-top:lrem;}</style>', unsafe_allow_html=True)
 #---------------------Menambahkan file upload
@@ -56,6 +57,9 @@ else:
 st.sidebar.markdown("📘Menu Dashboard")
 # Daftar variabel yang ingin disertakan dalam select box
 included_variables = [col for col in df.columns if col not in ["Id", "Tahun", "Provinsi", "Longitude", "Latitude", "Tingkat Pendapatan Rata rata"]]
+
+#Tahun 
+tahun = df['Tahun'].iloc[0]  # Mengambil nilai tahun dari baris pertama DataFrame df
 
 # Selectbox untuk memilih variabel tunggal
 selected_variable = st.sidebar.selectbox(
@@ -88,7 +92,7 @@ nilai_max_formatted = "{:.2f}".format(nilai_max)
 nilai_min_formatted = "{:.2f}".format(nilai_min)
 
 # Menampilkan statistik dalam ekspander
-st.markdown("<h3 style='color: #124076; font-family: Arial; text-align: center;'>ScoreCard Summary Statistik</h3>", unsafe_allow_html=True)
+st.markdown(f"<h3 style='color: #124076; font-family: Arial; text-align: center;'>ScoreCard Summary Statistik Malnutrisi Indonesia {tahun}</h3>", unsafe_allow_html=True)
 total1, total2, total3, total4 = st.columns(4)
 with total1:
         st.info('Rata-rata', icon="📇")
@@ -107,7 +111,7 @@ with total4:
         st.metric(label=f"Variabel {selected_variable}", value=total_formatted)
 
 
-with st.expander("OVERVIEW TABEL (ketuk untuk melihat tabel)"):
+with st.expander(f"OVERVIEW TABEL Malnutrisi Indonesia {tahun} (ketuk untuk melihat tabel) "):
     # Menampilkan DataFrame yang difilter
     st.write(df)
 
@@ -115,9 +119,53 @@ with st.expander("OVERVIEW TABEL (ketuk untuk melihat tabel)"):
 guide,vis,stat = st.tabs(["Panduan","Visualisasi","Metode Statistika"])
 with guide:
     st.markdown("<h3 style='text-align: center;'>Panduan Dashboard</h3>", unsafe_allow_html=True)
+    st.markdown("<h6 style='text-align: center; color: blue'><i class='fa fa-angle-right' style='color: blue'></i> Adapun panduan dashboard ini bertujuan untuk mempermudah akses user dalam penggunaan dashboard</h6>", unsafe_allow_html=True)
+    st.markdown("""
+        <style>
+            .icon {
+                color: purple;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: justify; color: purple'>
+             <i class='icon'>→</i> Dibagian kiri terdapat sidebar panel yang merupakan menu dashboard untuk mengganti variabel Malnutrisi yang diinginkan dan terdapat metode statistik yang diinginkan (Normalitas, Regresi, dan Cluster).
+        </h6>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <style>
+            .icon {
+                color: purple;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: justify; color: purple'>
+             <i class='icon'>→</i> Di bagian atas terdapat scorecard sebagai summary statistik secara keseluruhan dari variabel-variabel malnutrisi dan juga terdapat overview tabel yang berfungsi sebagai melihat tabel data yang akan digunakan.
+        </h6>
+    """, unsafe_allow_html=True)
+    st.markdown("""
+        <style>
+            .icon {
+                color: purple;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: justify; color: purple'>
+             <i class='icon'>→</i> Terdapat beberapa tab panel yang terdiri dari panduan sebagai tutorial mengakses dashboard, visualisasi sebagai gambaran visual untuk analisis datanya, dan metode statistika sebagai pengujian statistik dari data yang akan dianalisis.
+        </h6>
+    """, unsafe_allow_html=True)
 with vis:
-    st.markdown("<h3 style='text-align: center;'>Visualisasi Map Malnutrisi Indonesia 2022</h3>", unsafe_allow_html=True)
-    # Visualisasi peta berdasarkan variabel yang dipilih
+    st.markdown(f"<h3 style='text-align: center;'>Visualisasi Map Malnutrisi Indonesia {tahun}</h3>", unsafe_allow_html=True)    # Visualisasi peta berdasarkan variabel yang dipilih
+    st.markdown("""
+        <style>
+            .icon {
+                color: blue;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: center; color: blue'>
+             <i class='icon'>→</i> Visualisasi disini terdapat visualisasi map untuk kondisi malnutrisi sesuai variabel yang dipilih, visualisasi pie chart terkait pendapatan rata-rata saja, dan visualisasi boxplot untuk data yang sifatnya numerik.
+        </h6>
+    """, unsafe_allow_html=True)
     fig = px.scatter_mapbox(df, lat="Latitude", lon="Longitude", hover_name="Provinsi", hover_data=[selected_variable],
                             color=selected_variable, size=selected_variable, zoom=3, height=400, width = 930)  # Menggunakan selected_variable sebagai size
     fig.update_layout(
@@ -139,14 +187,14 @@ with vis:
     st.plotly_chart(fig)
 
     # Visualisasi Pie Chart dan Box Plot
-    with st.expander("VISUALISASI PIE CHART & BOX PLOT"):
+    with st.expander(f"VISUALISASI PIE CHART & BOX PLOT MALNUTRISI INDONESIA {tahun}"):
         pie_chart_column, box_plot_column = st.columns(2)
 
         # Pie chart berdasarkan kolom "Tingkat Pendapatan Rata-rata"
         # Menghitung jumlah kemunculan setiap nilai dalam kolom "Tingkat Pendapatan Rata-rata"
         with pie_chart_column:
             value_counts = df["Tingkat Pendapatan Rata rata"].value_counts()
-            fig_pie = px.pie(values=value_counts, names=value_counts.index, title="Persentase Tingkat Pendapatan Rata rata")
+            fig_pie = px.pie(values=value_counts, names=value_counts.index, title="Persentase Tingkat Pendapatan Rata rata Indonesia ")
             st.plotly_chart(fig_pie, use_container_width=True)  # Gunakan width yang sama dengan container
 
         # Visualisasi box plot untuk setiap variabel
@@ -169,6 +217,18 @@ with stat:
         kstest_result = kolmogorov_smirnov_test(data_to_test)
 
         # Menampilkan hasil uji normalitas
+        st.markdown(f"<h3 style='text-align: center;'> UJI DISTRIBUSI NORMAL</h3>", unsafe_allow_html=True)   
+        st.markdown("""
+        <style>
+            .icon {
+                color: blue;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: center; color: blue'>
+             <i class='icon'>→</i> Pengujian distribusi normal adalah pengujian untuk mengukur suatu data apakah mengikuti distribusi normal sesuai teori gaussian dalam statistik atau tidak. Pengujian distribusi normal menggunakan Kolmogorov-Smirnov.
+        </h6>
+    """, unsafe_allow_html=True)
         st.markdown("<h4 style='color: black;'>Hasil Pengujian Normalitas 🔎:</h4>", unsafe_allow_html=True)
         with st.expander("Hasil"):
             st.write("Hasil Uji Normalitas Kolmogorov-Smirnov untuk Variabel", selected_variable)
@@ -183,6 +243,18 @@ with stat:
             else:
                 st.write("Hipotesis nol ditolak, data tidak terdistribusi normal")
     if selected_variable2 == "Regression":
+        st.markdown(f"<h3 style='text-align: center;'> UJI REGRESI LINIEAR</h3>", unsafe_allow_html=True)   
+        st.markdown("""
+        <style>
+            .icon {
+                color: blue;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: center; color: blue'>
+             <i class='icon'>→</i> Pengujian regresi linier baik sederhana maupun berganda merupakan pengujian untuk mengetahui apakah variabel-variabel X berpengaruh signifikan terhadap variabel Y.
+        </h6>
+    """, unsafe_allow_html=True)
         # Daftar variabel yang akan dikecualikan
         excluded_variables = ["Id", "Tahun", "Tingkat Pendapatan Rata rata", "Longitude", "Latitude", "Provinsi"]
 
@@ -208,6 +280,18 @@ with stat:
             st.write(model.summary())
 
     if selected_variable2 == "Cluster":
+        st.markdown(f"<h3 style='text-align: center;'> ANALISIS CLUSTER</h3>", unsafe_allow_html=True)   
+        st.markdown("""
+        <style>
+            .icon {
+                color: blue;
+                margin-right: 5px;
+            }
+        </style>
+        <h6 style='text-align: center; color: blue'>
+             <i class='icon'>→</i> Analisis Cluster adalah analisis pengelompokkan suatu variabel-variabel yang ada ke dalam klaster-klaster kecil sesuai ciri khas dan kharakteristiknya.
+        </h6>
+    """, unsafe_allow_html=True)
         # Pilihan variabel yang akan dikecualikan
         excluded_variables = ["Id", "Tahun", "Tingkat Pendapatan Rata rata", "Longitude", "Latitude", "Provinsi"]
 
@@ -217,19 +301,26 @@ with stat:
         selected = st.multiselect("Pilih Variabel", included_variables)
         # Menambahkan kolom konstanta untuk model regresi
         selected2 = sm.add_constant(df[selected])
-        num_clusters = st.number_input("Masukkan Jumlah Cluster:", min_value=1, max_value=20, step=1)
+        num_clusters = st.number_input("Masukkan Jumlah k untuk Elbow:", min_value=1, max_value=20, step=1)
 
         # Memilih variabel independen
         X = selected2.iloc[:, 1:].values
+        # Membuat objek scaler
+        scaler = StandardScaler()
+
+        # Melakukan standardisasi pada data X
+        X_scaled = scaler.fit_transform(X)
         # Membuat model Elbow
         distortion = []
         for i in range(1, num_clusters + 1):
                 kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
-                kmeans.fit(X)
+                kmeans.fit(X_scaled)
                 distortion.append(kmeans.inertia_)
 
-        with st.expander("Data View"):
+        with st.expander("Data View +Hasil Standarisasi"):
             st.write(X)
+            st.write("Hasil Standarisasi")
+            st.write(X_scaled)
         # Menampilkan hasil Elbow
         st.markdown("<h4 style='color: black;'>Hasil Elbow </h4>", unsafe_allow_html=True)
         with st.expander("Hasil"):
@@ -244,12 +335,18 @@ with stat:
                 # Find the optimal k
 
                 def find_optimal_k(distortions):
-                    # Calculate the differences in distortions
-                    differences = [distortions[i] - distortions[i+1] for i in range(len(distortions)-1)]
-                    # Find the index of the maximum difference
-                    optimal_k_index = differences.index(max(differences))
+                # Find the index of the first distortion that is below 50
+                    optimal_k_index = None
+                    for i, dist in enumerate(distortions):
+                        if dist < 50:
+                            optimal_k_index = i
+                            break
+                    
                     # Optimal k is one more than the index (since indexing starts from 0)
-                    return optimal_k_index + 1
+                    if optimal_k_index is not None:
+                        return optimal_k_index 
+                    else:
+                        return len(distortions)  # Return the maximum number of clusters if no point is below 50
 
                 optimal_k = find_optimal_k(distortion)
                 st.write(f"Jumlah klaster optimal (k) berdasarkan metode Elbow adalah: {optimal_k}")
@@ -268,4 +365,35 @@ with stat:
             fig = px.scatter_mapbox(df, lat="Latitude", lon="Longitude", color="Cluster", size="Cluster", zoom=3, height=600)
             fig.update_layout(mapbox_style="open-street-map")
             st.plotly_chart(fig, use_container_width=True)
+
+        #Karakteristik Cluster
+        st.markdown("<h4 style='color: black;'>Karakteristik Klaster (Rata-rata)</h4>", unsafe_allow_html=True)
+        st.write("<h6 style='color: black; text-align: center;'>Karakteristik klaster yang dilihat dari rata-rata setiap variabelnya. Artinya, provinsi manakah yang cenderung memiliki nilai yang mirip degnan rata-rata setiap klasternya.</h6>", unsafe_allow_html=True)
+        # Menjalankan KMeans
+        def calculate_cluster_means(selected_data, cluster_column, selected_variables):
+            # Menghitung rata-rata berbagai variabel berdasarkan klaster
+            cluster_means = selected_data.groupby(cluster_column)[selected_variables].mean().reset_index()
+
+            return cluster_means
+
+        # Menyimpan kolom latitude dan longitude dari DataFrame df
+        selected2['Longitude'] = df['Longitude']
+        selected2['Latitude'] = df['Latitude']
+
+        # Filter DataFrame berdasarkan variabel yang dipilih
+        selected_data = selected2[selected]
+
+        # Menambahkan kolom Klaster ke DataFrame selected_data
+        selected_data['Cluster'] = kmeans.labels_
+        # Gabungkan DataFrame hasil klasterisasi dengan DataFrame asli untuk mendapatkan informasi provinsi
+        clustered_data_with_provinces = pd.merge(selected_data, df[['Provinsi']], left_index=True, right_index=True)
+        # Kelompokkan DataFrame berdasarkan klaster
+        clustered_provinces = clustered_data_with_provinces.groupby('Cluster')['Provinsi'].apply(list).reset_index(name='Provinsi')
+        # Menghitung rata-rata berbagai variabel berdasarkan klaster
+        cluster_means = calculate_cluster_means(selected_data, 'Cluster', selected)
+        # + provinsi
+        cluster_means_with_provinces = pd.merge(cluster_means, clustered_provinces, on='Cluster')
+
+        # Menampilkan hasil
+        st.write(cluster_means_with_provinces)
 
