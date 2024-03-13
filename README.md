@@ -15,3 +15,7 @@ https://dashboard-malnutrisi-indonesia2022.streamlit.app/
 @fer.dyputr_
 #### Linkedln:
 https://www.linkedin.com/in/ferdypput/
+
+## Informasi Tambahan:
+
+Tools yang digunakan menggunakan Python dengan library streamlit
