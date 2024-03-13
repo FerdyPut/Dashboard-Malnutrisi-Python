@@ -20,6 +20,7 @@ import sklearn
 import threadpoolctl
 from sklearn.cluster import KMeans
 import plotly.graph_objects as go
+import openpyxl
 
 
 st.set_page_config(page_title="Dashboard Interactive", page_icon=":bar_chart:", layout="wide")
