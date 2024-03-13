@@ -12,3 +12,4 @@ scikit-learn
 openpyxl
 plotly
 option_menu
+streamlit_option_menu
