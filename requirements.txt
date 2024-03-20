@@ -15,5 +15,5 @@ streamlit_option_menu
 numerize
 streamlit_extras
 StandardScaler
-pyrebase
+pyrebase4
 re
