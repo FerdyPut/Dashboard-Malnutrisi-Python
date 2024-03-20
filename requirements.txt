@@ -16,4 +16,4 @@ numerize
 streamlit_extras
 StandardScaler
 pyrebase4
-re
+Regex
