@@ -2,6 +2,11 @@
 
 Indonesia's interactive malnutrition dashboard which has several dependent variables, namely Prev Stunting, Wasing, Underweight, Overweight, and Proportion of children under 5 years of age.
 
+# Link for Download Dataset:
+
+[Download data.xlsx](./data R.xlsx)
+[Download data.xlsx](./DataR.xlsx)
+
 ## Dashboard View:
 ![image](https://github.com/FerdyPut/Dashboard-Malnutrisi-Python/assets/96618837/4fca5c99-9055-4bcc-b246-a4a5735a62f8)
 
