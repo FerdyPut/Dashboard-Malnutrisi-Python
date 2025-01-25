@@ -1,7 +1,6 @@
-# Dashboard-Malnutrisi-Python
-Malnutrition of Indonesian 2022
+# Implementation of Streamlit on the Malnutrition Dashboard in Indonesia on 2022
 
-Dashboard interaktif malnutrisi Indonesia yang memiliki beberapa variabel terkait, yaitu Prev Stunting, Wasing, Underweight, Overweight, dan Proporsi anak di bawah umur 5 tahun.
+Indonesia's interactive malnutrition dashboard which has several dependent variables, namely Prev Stunting, Wasing, Underweight, Overweight, and Proportion of children under 5 years of age.
 
 ## Dashboard View:
 ![image](https://github.com/FerdyPut/Dashboard-Malnutrisi-Python/assets/96618837/4fca5c99-9055-4bcc-b246-a4a5735a62f8)
@@ -16,6 +15,3 @@ https://dashboard-malnutrisi-indonesia2022.streamlit.app/
 #### Linkedln:
 https://www.linkedin.com/in/ferdypput/
 
-## Informasi Tambahan:
-
-Tools yang digunakan menggunakan Python dengan library streamlit
